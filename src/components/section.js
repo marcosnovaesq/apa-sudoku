@@ -6,7 +6,8 @@ export const BoardSection = (props) => {
     function renderCells(){
         const cells = []
         for(let i = 0; i< 9; i++){
-            cells.push(<BoardCell lastChanged={props.lastChanged} row={props.row} col={i} key={i} value={props.sectionValues[i]} prefilled={props.sectionValues[i] !== 0} />) 
+            console.log(props)
+            cells.push(<BoardCell key={i} row={props.row} col={i} log={props.log}  value={props.sectionValues[i]} prefilled={props.sectionValues[i] !== 0} />) 
         }
         return cells
     }

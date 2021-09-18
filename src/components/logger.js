@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { render } from 'react-dom'
 
 export const BoardLogger = (props) => {
+    const [logs, setLogs] = useState([])
+
+    useEffect(()=> {
+        setLogs((prev)=> {
+            prev.push(props.log)
+            return prev
+        })
+    }, [props.log])
 
     return (
-        <div class="logSection"> 
+        <div className="logSection"> 
             <h2>Historico de movimentos</h2>
             <ul>
-                {[...props.log].reverse().map((l) => {
-                    return <li key={Math.random()}>{`${l.message},  col  ${l.col},  row  ${l.row}`}</li>
+                {logs.reverse().map((l) => {
+                    return <li key={Math.random()}>{`${l.message}`}</li>
                 })}
             </ul>
         </div>

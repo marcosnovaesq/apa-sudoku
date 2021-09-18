@@ -1,3 +1,8 @@
+const logger = [
+
+]
+
+
 /* A Backtracking program in
 Javascript to solve Sudoku problem */
  
@@ -57,7 +62,6 @@ function isSafe(board, row, col, num)
 function solveSudoku(board, n)
 {
     
-    let puzzle = [...board]
 
     let row = -1;
     let col = -1;
@@ -66,11 +70,10 @@ function solveSudoku(board, n)
     {
         for(let j = 0; j < n; j++)
         {
-            if (puzzle[i][j] === 0)
+            if (board[i][j] === 0)
             {
                 row = i;
                 col = j;
- 
                 // We still have some remaining
                 // missing values in Sudoku
                 isEmpty = false;
@@ -82,28 +85,33 @@ function solveSudoku(board, n)
             break;
         }
     }
- 
+    
     // No empty space left
     if (isEmpty)
     {
         return true;
     }
- 
+    
     // Else for each-row backtrack
     for(let num = 1; num <= n; num++)
     {
-        if (isSafe(puzzle, row, col, num))
+        // const message  = `tentando ${num} na posicao ${row}-${col}`
+        // logger.push({type: "LOG", message })
+        if (isSafe(board, row, col, num))
         {
-            puzzle[row][col] = num;
-            if (solveSudoku(puzzle, n))
+            board[row][col] = num;
+            const message  = `${num} esta ok na posicao ${row}-${col}`
+            logger.push({type: "CHANGE", row, col, value: num, message})
+            if (solveSudoku(board, n))
             {
                 return true;
             }
             else
             {
-                 
+                const message  = `${num} nao esta ok, backtrack na posicao ${row}-${col}`
+                logger.push({type: "BACKTRACK", row, col, value: 0, message })
                 // Replace it
-                puzzle[row][col] = 0;
+                board[row][col] = 0;
             }
         }
     }
@@ -111,12 +119,13 @@ function solveSudoku(board, n)
 }
  
 export function solver(board, n){
-
-    if (solveSudoku(board, n))
+    let puzzle = [...board]
+    if (solveSudoku(puzzle, n))
     {
          
         // Print solution
-        console.info(board);
+        console.info(puzzle)
+        return logger
     }
     else
     {
