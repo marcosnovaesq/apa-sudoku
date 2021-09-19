@@ -2,42 +2,35 @@ const logger = [
 
 ]
 
-
-/* A Backtracking program in
-Javascript to solve Sudoku problem */
  
 function isSafe(board, row, col, num)
 {
      
-    // Row has the unique (row-clash)
+    // checa a linha (row-clash)
     for(let d = 0; d < board.length; d++)
     {
          
-        // Check if the number we are trying to
-        // place is already present in
-        // that row, return false;
+        // checa se o numero ja existe na linha
+        // se sim retorna falso
         if (board[row][d] === num)
         {
             return false;
         }
     }
  
-    // Column has the unique numbers (column-clash)
+    // checa a coluna (column-clash)
     for(let r = 0; r < board.length; r++)
     {
           
-        // Check if the number
-        // we are trying to
-        // place is already present in
-        // that column, return false;
+        /// checa se o numero ja existe na coluna
+        // se sim retorna falso
         if (board[r][col] === num)
         {
             return false;
         }
     }
  
-    // Corresponding square has
-    // unique number (box-clash)
+    // checa o quadrado atual (box-clash)
     let sqrt = Math.floor(Math.sqrt(board.length));
     let boxRowStart = row - row % sqrt;
     let boxColStart = col - col % sqrt;
@@ -55,7 +48,7 @@ function isSafe(board, row, col, num)
         }
     }
  
-    // If there is no clash, it's safe
+    // se o numero pode ficar na posicao retorna que esta seguro
     return true;
 }
  
@@ -74,8 +67,7 @@ function solveSudoku(board, n)
             {
                 row = i;
                 col = j;
-                // We still have some remaining
-                // missing values in Sudoku
+                // ainda tem alguns valores a serem preenchidos
                 isEmpty = false;
                 break;
             }
@@ -86,17 +78,15 @@ function solveSudoku(board, n)
         }
     }
     
-    // No empty space left
+    // se nao tem mais valores a serem preenchidos
     if (isEmpty)
     {
         return true;
     }
     
-    // Else for each-row backtrack
+    // se ainda tem, backtrack para cada linha
     for(let num = 1; num <= n; num++)
     {
-        // const message  = `tentando ${num} na posicao ${row}-${col}`
-        // logger.push({type: "LOG", message })
         if (isSafe(board, row, col, num))
         {
             board[row][col] = num;
@@ -110,7 +100,7 @@ function solveSudoku(board, n)
             {
                 const message  = `${num} nao esta ok, backtrack na posicao ${row}-${col}`
                 logger.push({type: "BACKTRACK", row, col, value: 0, message })
-                // Replace it
+                // trocar por 0
                 board[row][col] = 0;
             }
         }
@@ -122,9 +112,6 @@ export function solver(board, n){
     let puzzle = [...board]
     if (solveSudoku(puzzle, n))
     {
-         
-        // Print solution
-        console.info(puzzle)
         return logger
     }
     else
