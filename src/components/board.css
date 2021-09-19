@@ -34,7 +34,7 @@ input:hover {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	max-width: 50%;
+	max-width: 77%;
 	margin: 50px auto;
 }
 
@@ -43,4 +43,23 @@ input:hover {
 	flex-direction: column;
 	max-height: 400px;
 	overflow-y: scroll;
+}
+
+.buttonContainer{
+	display: flex;
+	justify-content: center;
+}
+
+.buttonContainer button{
+	margin: -30px 30px;
+	padding: 15px 30px;
+	background-color: #3974AA;
+	color: white;
+	font-weight: bold;
+	border: none;
+	cursor: pointer;
+}
+
+.buttonContainer button:hover {
+	background-color: #2b5780;
 }

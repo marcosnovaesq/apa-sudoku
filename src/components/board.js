@@ -32,8 +32,14 @@ export const SudokuBoard = () => {
     const [finished, setFinished] = useState(false)
 
     const [log, setLog] = useState({type: "LOG", message: "inicio"})
-
+    
     const [intervalID, setIntervalID] = useState()
+
+    const [numBacktracks, setNumBacktracks] = useState(0)
+
+    const [paused, setPaused] = useState(false)
+
+    const [boardLog, setBoardLog] = useState([])
 
     function renderBoard(){
         const sections = []
@@ -49,36 +55,78 @@ export const SudokuBoard = () => {
             ac[currLog.row][currLog.col] = currLog.value
             return ac
         })
+        if( currLog.type === "BACKTRACK"){
+            setNumBacktracks((prev) => {
+                return prev + 1
+            })
+        }
+    }
+
+    function endGame(){
+        setLog({type: "LOG", message: "fim, sudoku resolvido"})
+        setFinished(true)
+    }
+
+    function togglePause(){
+        setPaused((prev)=> {
+            return !prev
+        })      
+    }
+
+    function processLog(currLog){
+        console.info(paused)
+        if(paused)return
+        if(!currLog){
+            
+            return
+        }
+        if(currLog.type === "CHANGE" || currLog.type === "BACKTRACK"){
+            updateState(currLog)
+        }
+        setLog(currLog)
     }
 
 
     useEffect(() => {
-        const boardLog = solver(board, 9)
+        setBoardLog(solver(board, 9))
         if(boardLog){
             setIntervalID(
                 setInterval(()=> {
                     let currLog = boardLog.shift()
-                    if(!currLog){
-                        setFinished(true)
-                        return
-                    }
-                    if(currLog.type === "CHANGE" || currLog.type === "BACKTRACK"){
-                        updateState(currLog)
-                    }
-                    setLog(currLog)
+                    processLog(currLog)
                 }, 100)
             )
         }
     }, [])
 
+
+    useEffect(() => {
+        if(paused){
+            clearInterval(intervalID)
+        }
+        else{
+            if(boardLog){
+                setIntervalID(
+                    setInterval(()=> {
+                        let currLog = boardLog.shift()
+                        processLog(currLog)
+                    }, 100)
+                )
+            }
+        }
+    }, [paused])
+
     useEffect(() => {
         if(finished){
+            endGame()
             clearInterval(intervalID)
         }
     }, [finished])
 
     return (
+        <> 
         <div className="container"> 
+            <h2>Qtd. Backtracks: {numBacktracks}</h2>
             <table id="sudoku">
                 <tbody>
                     {renderBoard()}
@@ -86,5 +134,9 @@ export const SudokuBoard = () => {
             </table>
             <BoardLogger  log={log} />
         </div>
+        <div className="buttonContainer">
+            <button onClick={togglePause}>{paused ? "play" : "pause"}</button>
+        </div>
+        </>
     )
 }

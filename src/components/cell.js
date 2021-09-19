@@ -1,13 +1,9 @@
 import React, { useState } from 'react'
 
 export const BoardCell = (props) => {
-    const [prefilled, setPrefilled] = useState(props.value !== 0)
-    console.log(props)
-
-    // let color = 'white'
+    const [prefilled,] = useState(props.value !== 0)
 
 
-    // function color(){
     let color = 'white'
     let fontColor = "black"
     if(props.log.row === props.row && props.log.col === props.col){
@@ -21,10 +17,6 @@ export const BoardCell = (props) => {
         }
 
     }
-
-    console.info(color, props.row, props.col)
-        // return color 
-    // }
 
     return (<td ><input style={{backgroundColor: color, color: fontColor, fontSize: "25px"}} type="text"  value={props.value} disabled={prefilled}/></td>)
 }
