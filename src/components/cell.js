@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 export const BoardCell = (props) => {
     const [prefilled,] = useState(props.value !== 0)
 
-
     let color = 'white'
     let fontColor = "black"
     if(props.log.row === props.row && props.log.col === props.col){

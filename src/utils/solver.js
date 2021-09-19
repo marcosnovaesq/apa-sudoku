@@ -100,7 +100,7 @@ function solveSudoku(board, n)
             {
                 const message  = `${num} nao esta ok, backtrack na posicao ${row}-${col}`
                 logger.push({type: "BACKTRACK", row, col, value: 0, message })
-                // trocar por 0
+                // resetar aquela posiçao
                 board[row][col] = 0;
             }
         }
