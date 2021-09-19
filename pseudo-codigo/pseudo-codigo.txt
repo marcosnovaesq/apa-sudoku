@@ -1,0 +1,59 @@
+Pseudo-código:
+
+N = 9 
+
+validaEscolha(grid, linha, coluna, num)
+	
+// Verifica se existe numero igual na linha
+para i = 0 até N, faça:
+se grid[linha][i] == num, retorna (Falso, ‘linha’)
+fim para
+	
+// Verifica se existe numero igual na coluna
+para i = 0 até N, faça:
+	se grid[coluna][i] == num, retorna (Falso, ‘coluna’)
+fim para
+	
+// Verifica se existe numero igual no sub-grupo
+linha_inicial = linha - linha % 3
+coluna_inicial = col - col % 3
+para i = 0 até N/3 faça:
+para j = 0 até N/3 faça:
+		se grid[i + linha_inicial][j + coluna_inicial] == num:
+			retorna (Falso, subgrupo)
+	fim para
+fim para
+
+retorna Verdadeiro
+fim
+
+
+resolveSudoku(grid, linha, coluna)
+
+se linha == N - 1 e coluna == N, retorna Verdadeiro
+ 
+ 
+// Muda para próxima linha após chegar a ultima coluna
+se coluna == N, faça:
+linha += 1
+coluna = 0
+ 
+// Caso a posição atual já esteja preenchida, passamos para a
+// próxima coluna
+se grid[linha][coluna] > 0:
+if grid[row][col] > 0:
+retorna resolveSudoku(grid, linha, coluna + 1)
+ 
+// Chama backtracking para preencher cada posição de 1 a 9
+para num = 1 até N + 1, faça:
+	se validaEscolha(grid, linha, coluna, num), faça:
+		grid[linha][coluna] = num
+	
+	// Checamos se é possivel para a próxima coluna
+	se resolveSudoku(grid, linha, coluna + 1), retorna Verdadeiro
+fim para
+ 
+// Se chegou até aqui, nossa suposição estava errada e vamos tentar com o próximo número
+retorna Falso
+fim
+ 
