@@ -1,3 +1,8 @@
+Universidade Federal Fluminense
+Alunos: Marcos Novaes e Marcos Reis
+Analise de projeto de algoritmo
+Trabalho 2 - Sudoku
+
 Pseudo-código:
 
 N = 9 
